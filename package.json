@@ -1,0 +1,16 @@
+{
+  "name": "upload",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "deploy": "gh-pages -d .",
+    "enable-pages": "node enable-pages.js"
+  },
+  "homepage": "https://sayanjitDas-web.github.io/upload",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "dotenv": "^10.0.0",
+    "gh-pages": "^3.2.3"
+  }
+}
