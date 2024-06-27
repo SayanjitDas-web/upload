@@ -47,9 +47,28 @@ const createBranch = async (newBranch, fromBranch) => {
   }
 };
 
+// Function to check if GitHub Pages is enabled
+const isPagesEnabled = async () => {
+  try {
+    const response = await axios.get(`https://api.github.com/repos/${repoOwner}/${repoName}/pages`, config);
+    return response.status === 200;
+  } catch (error) {
+    if (error.response && error.response.status === 404) {
+      return false;
+    }
+    throw error;
+  }
+};
+
 // Function to enable GitHub Pages
 const enablePages = async () => {
   try {
+    // Check if GitHub Pages is already enabled
+    if (await isPagesEnabled()) {
+      console.log('GitHub Pages is already enabled.');
+      return;
+    }
+
     // Ensure the gh-pages branch exists
     if (!await branchExists('gh-pages')) {
       await createBranch('gh-pages', mainBranch);
