@@ -157,5 +157,5 @@ const deleteFile = async (filePath) => {
 
 // Example usage: delete a file
 const filePath = "images/SipTon.png" // Replace with the path to your file
-deleteFile(filePath);
+// deleteFile(filePath);
 
