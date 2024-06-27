@@ -109,6 +109,18 @@ const getFileSha = async (filePath) => {
   }
 };
 
+// Function to commit and push changes
+const commitAndPush = (message) => {
+  try {
+    exec('git add .');
+    exec(`git commit -m "${message}"`);
+    exec('git push origin gh-pages'); // Replace with your branch name
+    console.log('Changes committed and pushed successfully.');
+  } catch (error) {
+    console.error('Error committing and pushing changes:', error);
+  }
+};
+
 // Function to delete a file from the gh-pages branch
 const deleteFile = async (filePath) => {
   try {
@@ -137,6 +149,7 @@ const deleteFile = async (filePath) => {
       }
       console.log(`File ${filePath} has been deleted successfully`);
     });
+    commitAndPush("file deleted")
   } catch (error) {
     console.error('Error deleting file:', error.response.data);
   }
@@ -146,16 +159,3 @@ const deleteFile = async (filePath) => {
 const filePath = "images/SipTon.png" // Replace with the path to your file
 deleteFile(filePath);
 
-// Function to commit and push changes
-const commitAndPush = (message) => {
-  try {
-    exec('git add .');
-    exec(`git commit -m "${message}"`);
-    exec('git push origin gh-pages'); // Replace with your branch name
-    console.log('Changes committed and pushed successfully.');
-  } catch (error) {
-    console.error('Error committing and pushing changes:', error);
-  }
-};
-
-commitAndPush("file deleted")
