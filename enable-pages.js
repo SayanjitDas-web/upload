@@ -151,4 +151,4 @@ const commitAndPush = async (message) => {
   }
 };
 
-commitAndPush()
+commitAndPush("file deleted")
