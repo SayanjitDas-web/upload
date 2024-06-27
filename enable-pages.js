@@ -1,5 +1,6 @@
 const axios = require('axios');
 require('dotenv').config();
+const { exec } = require('child_process');
 
 const repoOwner = 'SayanjitDas-web';
 const repoName = 'upload';
@@ -135,6 +136,19 @@ const deleteFile = async (filePath) => {
 };
 
 // Example usage: delete a file
-const filePath = "./images/SipTon.png';" // Replace with the path to your file
+const filePath = "images/SipTon.png" // Replace with the path to your file
 deleteFile(filePath);
 
+// Function to commit and push changes
+const commitAndPush = (message) => {
+  try {
+    exec('git add .');
+    exec(`git commit -m "${message}"`);
+    exec('git push origin gh-pages'); // Replace with your branch name
+    console.log('Changes committed and pushed successfully.');
+  } catch (error) {
+    console.error('Error committing and pushing changes:', error);
+  }
+};
+
+commitAndPush("file deleted")
