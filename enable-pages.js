@@ -1,3 +1,4 @@
+const fs = require('fs');
 const axios = require('axios');
 require('dotenv').config();
 const { exec } = require('child_process');
@@ -129,7 +130,13 @@ const deleteFile = async (filePath) => {
         }
       }
     );
-    console.log(`File '${filePath}' deleted successfully.`);
+    fs.unlink(filePath, (err) => {
+      if (err) {
+        console.error('Error deleting file:', err);
+        return;
+      }
+      console.log(`File ${filePath} has been deleted successfully`);
+    });
   } catch (error) {
     console.error('Error deleting file:', error.response.data);
   }
