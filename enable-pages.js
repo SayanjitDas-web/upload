@@ -90,4 +90,51 @@ const enablePages = async () => {
   }
 };
 
-enablePages();
+// Function to get the file SHA
+const getFileSha = async (filePath) => {
+  try {
+    const response = await axios.get(
+      `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}?ref=gh-pages`,
+      config
+    );
+    return response.data.sha;
+  } catch (error) {
+    if (error.response && error.response.status === 404) {
+      console.log(`File '${filePath}' does not exist.`);
+      return null;
+    }
+    throw error;
+  }
+};
+
+// Function to delete a file from the gh-pages branch
+const deleteFile = async (filePath) => {
+  try {
+    const fileSha = await getFileSha(filePath);
+
+    if (!fileSha) {
+      console.log(`File '${filePath}' not found.`);
+      return;
+    }
+
+    await axios.delete(
+      `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`,
+      {
+        headers: config.headers,
+        data: {
+          message: `Delete ${filePath}`,
+          sha: fileSha,
+          branch: 'gh-pages'
+        }
+      }
+    );
+    console.log(`File '${filePath}' deleted successfully.`);
+  } catch (error) {
+    console.error('Error deleting file:', error.response.data);
+  }
+};
+
+// Example usage: delete a file
+const filePath = './images/SipTon.png'; // Replace with the path to your file
+deleteFile(filePath);
+
